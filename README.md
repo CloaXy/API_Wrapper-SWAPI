@@ -14,8 +14,6 @@ The SWAPI Wrapper API provides a simple interface to retrieve information about 
 - [Usage](#usage)
   - [Endpoints](#endpoints)
 - [Swagger Documentation](#swagger-documentation)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Features
 
