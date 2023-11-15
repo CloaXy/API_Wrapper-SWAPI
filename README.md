@@ -36,7 +36,7 @@ The SWAPI Wrapper API provides a simple interface to retrieve information about 
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/swapi-wrapper-api.git
+    git clone https://github.com/CloaXy/API_Wrapper-SWAPI.git
     ```
 
 2. Open the solution in Visual Studio.
@@ -82,13 +82,7 @@ The SWAPI Wrapper API is built using ASP.NET Core Web API, leveraging the featur
 ## Swagger Documentation
 
 Explore and test the API using Swagger documentation. In development mode, Swagger UI is available at:
-[https://localhost:44373/swagger/index.html]
+[Swagger UI](https://localhost:44373/swagger)
 
-## Contributing
 
-Contributions are welcome! Please follow the [contribution guidelines](CONTRIBUTING.md).
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
