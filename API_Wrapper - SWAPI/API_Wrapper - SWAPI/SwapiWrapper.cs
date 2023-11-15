@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Wrapper class for SWAPI operations.
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -12,6 +13,7 @@ public class SwapiWrapper
     private readonly string _baseUrl;
     private readonly IMemoryCache _cache;
 
+    // Constructor for the SwapiWrapper class.
     public SwapiWrapper(HttpClient httpClient, IMemoryCache cache)
     {
         _httpClient = httpClient ?? throw new ArgumentNullException(nameof(httpClient));
@@ -19,12 +21,13 @@ public class SwapiWrapper
         _cache = cache ?? throw new ArgumentNullException(nameof(cache));
     }
 
+    // Endpoint to get films asynchronously.
     public async Task<string> GetFilmsAsync()
     {
         const string endpoint = "films/";
         var filmsData = await GetCachedDataAsync(endpoint);
 
-        // Deserialize the films data to get the film names
+        // Deserialize the films data to get the film names.
         var films = JsonSerializer.Deserialize<FilmList>(filmsData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         if (films?.Results != null)
         {
@@ -32,35 +35,36 @@ public class SwapiWrapper
             return JsonSerializer.Serialize(filmNames);
         }
 
-        return "[]"; // Return an empty array if no films found
+        return "[]"; // Return an empty array if no films found.
     }
 
+    // Class representing a starship.
     public class Starship
     {
         public string Name { get; set; }
-        
     }
 
+    // Endpoint to get starships for a film asynchronously.
     public async Task<string> GetStarshipsForFilmAsync(int filmId)
     {
         const string endpoint = "films/";
         var filmsData = await GetCachedDataAsync(endpoint);
 
-        // Deserialize the films data to get the film details
+        // Deserialize the films data to get the film details.
         var films = JsonSerializer.Deserialize<FilmList>(filmsData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         var selectedFilm = films?.Results?.FirstOrDefault(film => film.Id == filmId);
 
         if (selectedFilm != null)
         {
-            
             var starshipUrls = selectedFilm.Starships;
             var starshipNames = await GetStarshipNamesAsync(starshipUrls);
             return JsonSerializer.Serialize(starshipNames);
         }
 
-        return "[]"; // Return an empty array if no film found for the given ID
+        return "[]"; // Return an empty array if no film found for the given ID.
     }
 
+    // Helper method to get starship names asynchronously.
     private async Task<List<string>> GetStarshipNamesAsync(List<string> starshipUrls)
     {
         var starshipNames = new List<string>();
@@ -79,33 +83,33 @@ public class SwapiWrapper
         return starshipNames;
     }
 
-
+    // Class representing a character.
     public class Character
     {
         public string Name { get; set; }
-        
     }
 
+    // Endpoint to get characters for a film asynchronously.
     public async Task<string> GetCharactersForFilmAsync(int filmId)
     {
         const string endpoint = "films/";
         var filmsData = await GetCachedDataAsync(endpoint);
 
-        // Deserialize the films data to get the film details
+        // Deserialize the films data to get the film details.
         var films = JsonSerializer.Deserialize<FilmList>(filmsData, new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
         var selectedFilm = films?.Results?.FirstOrDefault(film => film.Id == filmId);
 
         if (selectedFilm != null)
         {
-            
             var characterUrls = selectedFilm.Characters;
             var characterNames = await GetCharacterNamesAsync(characterUrls);
             return JsonSerializer.Serialize(characterNames);
         }
 
-        return "[]"; // Return an empty array if no film found for the given ID
+        return "[]"; // Return an empty array if no film found for the given ID.
     }
 
+    // Helper method to get character names asynchronously.
     private async Task<List<string>> GetCharacterNamesAsync(List<string> characterUrls)
     {
         var characterNames = new List<string>();
@@ -123,8 +127,8 @@ public class SwapiWrapper
 
         return characterNames;
     }
-   
 
+    // Helper method to get cached data from the specified endpoint.
     private async Task<string> GetCachedDataAsync(string endpoint)
     {
         if (_cache.TryGetValue(endpoint, out string cachedData))
@@ -148,25 +152,24 @@ public class SwapiWrapper
     }
 }
 
+// Class representing a list of films.
 public class FilmList
 {
     public List<Film> Results { get; set; }
 }
 
+// Class representing details of a film.
 public class Film
 {
     public int Id { get; set; }  // Add this property to represent the ID of the film
     public string Title { get; set; }
-    // Other properties related to the film
+    public List<string> Characters { get; set; }
+    public List<string> Starships { get; set; }
 
-    // Constructor to initialize the Starships list
+    // Constructor to initialize the Starships and Characters lists.
     public Film()
     {
         Starships = new List<string>();
         Characters = new List<string>();
     }
-    public List<string> Characters { get; set; }
-    public List<string> Starships { get; set; }
 }
-
-

@@ -1,4 +1,5 @@
-﻿using System;
+﻿// Controller for SWAPI operations.
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
@@ -10,11 +11,13 @@ public class SwapiController : ControllerBase
 {
     private readonly SwapiWrapper _swapiWrapper;
 
+    // Constructor for the controller.
     public SwapiController(HttpClient httpClient, IMemoryCache cache)
     {
         _swapiWrapper = new SwapiWrapper(httpClient, cache);
     }
 
+    // Endpoint to get films.
     [HttpGet("films")]
     public async Task<IActionResult> GetFilms()
     {
@@ -29,6 +32,7 @@ public class SwapiController : ControllerBase
         }
     }
 
+    // Endpoint to get starships for a film.
     [HttpGet("starships/{filmId}")]
     public async Task<IActionResult> GetStarshipsForFilm(int filmId)
     {
@@ -43,6 +47,7 @@ public class SwapiController : ControllerBase
         }
     }
 
+    // Endpoint to get characters for a film.
     [HttpGet("characters/{filmId}")]
     public async Task<IActionResult> GetCharactersForFilm(int filmId)
     {
@@ -56,5 +61,4 @@ public class SwapiController : ControllerBase
             return StatusCode(500, $"Internal server error: {ex.Message}");
         }
     }
-
 }
