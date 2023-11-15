@@ -30,6 +30,15 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "SWAPI Wrapper API v1"));
 }
+else
+{
+    app.UseSwagger();
+    app.UseSwaggerUI(options =>
+    {
+        options.SwaggerEndpoint("/swagger/v1/swagger.json", "SWAPI Wrapper API v1");
+        options.RoutePrefix = string.Empty;
+    });
+}
 
 // Configure middleware for the application.
 app.UseHttpsRedirection();
