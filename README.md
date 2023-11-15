@@ -76,6 +76,11 @@ The SWAPI Wrapper API is built using ASP.NET Core Web API, leveraging the featur
     ```http
     GET /api/swapi/characters/{filmId}
     ```
+## Deploye and Published
+
+The API is deployed to an Azure App service and can be accessed through the link below:
+Link to website: https://apiwrapperswapi.azurewebsites.net
+
 
 ## Swagger Documentation
 
